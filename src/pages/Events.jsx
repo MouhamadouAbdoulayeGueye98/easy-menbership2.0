@@ -9,8 +9,8 @@ export default function Events() {
       date: "2026-10-30",
       capacity: 10,
       participants: [
-        { name: "Alice", confirmed: true },
-        { name: "Bob", confirmed: false },
+        { name: "Mouhamed", confirmed: true },
+        { name: "Nabou", confirmed: false },
       ],
     },
     {
