@@ -14,7 +14,7 @@ export default function Members() {
   const [detailMember, setDetailMember] = useState(null);
   const [search, setSearch] = useState("");
 
-  const API = "http://localhost:5000/members";
+  const API = "https://easy-menbership2-0-backend.onrender.com/members";
 
   // Charger les membres
   useEffect(() => {
