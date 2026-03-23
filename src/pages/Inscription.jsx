@@ -5,15 +5,43 @@ export default function RegisterPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
     if (password !== confirmPassword) {
       alert("Les mots de passe ne correspondent pas !");
       return;
     }
-    // Ici tu peux envoyer les données au serveur
-    console.log({ name, email, password });
+
+    setLoading(true);
+
+    try {
+      const res = await fetch("http://localhost:5000/users/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ name, email, password }),
+      });
+
+      const data = await res.json();
+      setLoading(false);
+
+      if (!res.ok) {
+        alert(data.error || "Erreur lors de l'inscription");
+        return;
+      }
+
+      alert("Inscription réussie !");
+      window.location.href = "/login"; // redirection vers login
+
+    } catch (err) {
+      console.error(err);
+      setLoading(false);
+      alert("Impossible de contacter le serveur");
+    }
   };
 
   return (
@@ -80,9 +108,12 @@ export default function RegisterPage() {
 
           <button
             type="submit"
-            className="w-full bg-emerald-500 text-white py-3 rounded-xl font-semibold hover:bg-emerald-600 transform hover:scale-105 transition duration-200"
+            disabled={loading}
+            className={`w-full py-3 rounded-xl font-semibold text-white transform hover:scale-105 transition duration-200 ${
+              loading ? "bg-gray-400 cursor-not-allowed" : "bg-emerald-500 hover:bg-emerald-600"
+            }`}
           >
-            S'inscrire
+            {loading ? "Inscription..." : "S'inscrire"}
           </button>
         </form>
 
